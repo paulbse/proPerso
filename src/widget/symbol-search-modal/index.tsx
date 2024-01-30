@@ -19,18 +19,30 @@ import { Modal, List, Input } from '../../component'
 import i18n from '../../i18n'
 
 import { SymbolInfo, Datafeed } from '../../types'
+import { exchangeTradingPair } from '../../data3'
+
 
 export interface SymbolSearchModalProps {
   locale: string
-  datafeed: Datafeed
+  // datafeed: Datafeed
+  datafeed: any
   onSymbolSelected: (symbol: SymbolInfo) => void
   onClose: () => void
 }
 
 const SymbolSearchModal: Component<SymbolSearchModalProps> = props => {
   const [value, setValue] = createSignal('')
-
-  const [symbolList] = createResource(value, props.datafeed.searchSymbols.bind(props.datafeed))
+  const searchSymbols = (query) => {
+    let results = [];
+    for (let exchange in exchangeTradingPair) {
+        const filteredPairs = exchangeTradingPair[exchange].filter(pair => pair.toLowerCase().includes(query.toLowerCase()));
+        results = results.concat(filteredPairs.map(pair => ({ exchange, pair })));
+    }
+    // Return only the first 20 results
+    return results.slice(0, 20);
+  };
+  const [symbolList] = createResource(value, searchSymbols);
+  
 
   return (
     <Modal
@@ -54,21 +66,19 @@ const SymbolSearchModal: Component<SymbolSearchModalProps> = props => {
         class="klinecharts-pro-symbol-search-modal-list"
         loading={symbolList.loading}
         dataSource={symbolList() ?? []}
-        renderItem={(symbol: SymbolInfo) => (
-          <li
-            onClick={() => {
-              props.onSymbolSelected(symbol)
-              props.onClose()
-            }}>
-            <div>
-              <Show when={symbol.logo}>
-                <img alt="symbol" src={symbol.logo}/>
-              </Show>
-              <span title={symbol.name ?? ''}>{symbol.shortName ?? symbol.ticker}{`${symbol.name ? `(${symbol.name})` : ''}`}</span>
-            </div>
-            {symbol.exchange ?? ''}
+        renderItem={({ exchange, pair }) => (
+          <li onClick={() => {
+              props.onSymbolSelected({ name: pair, exchange });
+              props.onClose();
+          }}
+          class="search-result-item">
+              <div class="result-content">
+                <span class="pair">{pair}</span>
+                <span class="exchange">{exchange}</span>
+              </div>
           </li>
-        )}>
+      )}>
+      
       </List>
     </Modal>
   )

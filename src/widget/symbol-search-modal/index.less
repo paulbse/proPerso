@@ -12,28 +12,37 @@
     font-size: 16px;
   }
 }
-
 .@{prefix-cls}-symbol-search-modal-list {
-  height: 400px;
-  margin-left: -20px;
-  margin-right: -20px;
+  height: 400px; // Adjust as needed
+  overflow-y: auto; // Add scroll if content is taller than the container
+  padding-left: 20px; // Add padding to match modal padding
+  padding-right: 20px; // Add padding to match modal padding
+
   li {
+    display: flex;
     justify-content: space-between;
-    div {
+    padding: 0 10px; // Adjust as needed
+    max-height: 50px; // Adjust as needed
+    line-height: 1.5; // Adjust as needed
+    border-bottom: 1px solid #efefef; // Visual separator, optional
+    
+    .result-content {
       display: flex;
-      flex-direction: row;
-      align-items: center;
-      img {
-        width: 16px;
-        height: 16px;
-        margin-right: 6px;
-      }
-      span {
-        width: 300px;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-      }
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .pair, .exchange {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .exchange {
+      margin-left: 10px; // Ensures spacing between the pair and exchange
+      text-align: right;
+      // Assuming the exchange name does not need to grow
+      flex-shrink: 0;
     }
   }
 }

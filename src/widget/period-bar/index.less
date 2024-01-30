@@ -1,4 +1,4 @@
-@import (reference) '../../base.less';
+@import (reference) "../../base.less";
 
 .@{prefix-cls}-period-bar {
   display: flex;
@@ -22,7 +22,7 @@
       width: 28px;
       height: 28px;
       cursor: pointer;
-      transition: all .2s;
+      transition: all 0.2s;
       &.rotate {
         transform: rotate(180deg);
         transform-origin: center;
@@ -52,7 +52,7 @@
     cursor: pointer;
     fill: var(--klinecharts-pro-text-color);
     &.selected {
-      background-color: var(--klinecharts-pro-selected-color)!important;
+      background-color: var(--klinecharts-pro-selected-color) !important;
       color: var(--klinecharts-pro-primary-color);
     }
   }
@@ -91,5 +91,10 @@
   .period + .tools {
     border-left: solid 1px var(--klinecharts-pro-border-color);
     margin-left: 8px;
+  }
+  @media screen and (max-width: 1060px) {
+    .exchangeSymbol {
+      display: none;
+    }
   }
 }
