@@ -2,13 +2,16 @@ import { Component, createSignal } from 'solid-js'
 import { Modal, List, Checkbox, Input } from '../../component'
 import i18n from '../../i18n'
 
+type OnIndicatorChange = (params: { name: string; paneId: string; added: boolean }) => void;
+
 export interface IndicatorModalProps {
   locale: string
   mainIndicators: string[]
-  subIndicators: object
+  subIndicators: { [key: string]: string };
   onMainIndicatorChange: OnIndicatorChange
   onSubIndicatorChange: OnIndicatorChange
   onClose: () => void
+  
 }
 
 const IndicatorModal: Component<IndicatorModalProps> = props => {
@@ -39,8 +42,10 @@ const IndicatorModal: Component<IndicatorModalProps> = props => {
       <Input
         placeholder="Search indicators"
         value={searchValue()}
-        onChange={newValue => setSearchValue(newValue)} // Directly use the newValue
-      />
+        onChange={v => {
+          const va = `${v}`
+          setSearchValue(va)
+        }}      />
       <List class="klinecharts-pro-indicator-modal-list">
         <li class="title">{i18n('main_indicator', props.locale)}</li>
         {filteredMainIndicators().map(name => {

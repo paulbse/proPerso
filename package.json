@@ -1,7 +1,7 @@
 {
-  "name": "@klinecharts/pro",
-  "version": "0.1.1",
-  "description": "Financial chart built out of the box based on KLineChart.",
+  "name": "@paulbse/sfoliocharts",
+  "version": "0.1.5",
+  "description": "",
   "type": "module",
   "main": "./dist/klinecharts-pro.umd.js",
   "module": "./dist/klinecharts-pro.js",
@@ -13,7 +13,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/klinecharts/pro"
+    "url": "https://github.com/paulbse/proPerso"
   },
   "keywords": [
     "klinecharts",
@@ -24,7 +24,7 @@
     "chart",
     "canvas"
   ],
-  "author": "liihuu",
+  "author": "PaulBSE",
   "license": "Apache-2.0",
   "private": false,
   "scripts": {
@@ -59,6 +59,7 @@
     "vitest": "^0.28.4"
   },
   "dependencies": {
+    "axios": "^1.6.7",
     "lodash": "^4.17.21",
     "solid-js": "^1.6.11"
   },

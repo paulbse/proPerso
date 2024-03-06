@@ -7,7 +7,7 @@ export interface CreateLayoutModalProps {
   currentSymbol: string;
   currentDate: string;
   currentPeriod: string;
-  onCreateLayout: (layoutInfo: LayoutInfo) => void;
+  onCreateLayout: (layoutInfo: any) => void;
   onClose: () => void;
 }
 

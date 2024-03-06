@@ -36,8 +36,8 @@ export default class BackendDatafeed {
 
       const url = `${this._apiKey}/coinPriceData`;
       const params = {
-        BaseCurrency: symbol.name.split('/')[0], // Extract BaseCurrency from ticker
-        QuoteCurrency: symbol.name.split('/')[1], // Extract QuoteCurrency from ticker
+        BaseCurrency: symbol.name?.split('/')[0], // Extract BaseCurrency from ticker
+        QuoteCurrency: symbol.name?.split('/')[1], // Extract QuoteCurrency from ticker
         Timeframe: timeframe,
         From: new Date(from).toISOString(),
         To: new Date(to).toISOString(),

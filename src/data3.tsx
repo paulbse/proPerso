@@ -1,4 +1,8 @@
-export let exchangeTradingPair = {
+interface ExchangeTradingPairs {
+    [key: string]: string[]; // This is the index signature
+  }
+
+export let exchangeTradingPair: ExchangeTradingPairs = {
     "ascendex": [
         "BCH/USDT",
         "ETC/USDT",

@@ -21,22 +21,22 @@ import i18n from '../../i18n'
 import { SymbolInfo, Datafeed } from '../../types'
 import { exchangeTradingPair } from '../../data3'
 
-
 export interface SymbolSearchModalProps {
   locale: string
   // datafeed: Datafeed
   datafeed: any
-  onSymbolSelected: (symbol: SymbolInfo) => void
+  onSymbolSelected: (symbol: any) => void
   onClose: () => void
 }
 
 const SymbolSearchModal: Component<SymbolSearchModalProps> = props => {
   const [value, setValue] = createSignal('')
-  const searchSymbols = (query) => {
-    let results = [];
+  const searchSymbols = (query: any) => {
+    let results: any = [];
     for (let exchange in exchangeTradingPair) {
-        const filteredPairs = exchangeTradingPair[exchange].filter(pair => pair.toLowerCase().includes(query.toLowerCase()));
-        results = results.concat(filteredPairs.map(pair => ({ exchange, pair })));
+      // Now TypeScript knows that exchangeTradingPair[exchange] is string[]
+      const filteredPairs = exchangeTradingPair[exchange].filter((pair: string) => pair.toLowerCase().includes(query.toLowerCase()));
+      results = results.concat(filteredPairs.map((pair: string) => ({ exchange, pair })));
     }
     // Return only the first 20 results
     return results.slice(0, 20);

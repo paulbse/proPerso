@@ -62,7 +62,7 @@ const PeriodBar: Component<PeriodBarProps> = props => {
 
   const [selectedLayoutAction, setSelectedLayoutAction] = createSignal('')
 
-  const handleLayoutActionChange = (selectedOption) => {
+  const handleLayoutActionChange = (selectedOption: any) => {
     setSelectedLayoutAction(selectedOption.key);
     switch (selectedOption.key) {
       case 'save':

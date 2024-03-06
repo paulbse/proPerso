@@ -36,6 +36,7 @@ import {
   Indicator,
   DomPosition,
   FormatDateType,
+  OverlayCreate,
 } from "klinecharts";
 
 import lodashSet from "lodash/set";
@@ -61,6 +62,14 @@ import { translateTimezone } from "./widget/timezone-modal/data";
 
 import { SymbolInfo, Period, ChartProOptions, ChartPro } from "./types";
 import CreateLayoutModal from "./widget/layout-modal/CreateLayout";
+
+export interface LayoutInfo {
+  id: string;
+  name: string;
+  symbol: string;
+  timeframe: string;
+  date: string;
+}
 
 export interface ChartProComponentProps
   extends Required<Omit<ChartProOptions, "container">> {
@@ -557,7 +566,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
  
 
   let overlaysMap = new Map();
-  const testLayoutData = [
+  const testLayoutData: LayoutInfo[] = [
     {
       id:'1',
       name: 'Daily Trend Analysis',
@@ -703,7 +712,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
     },
   ];
 
-  const [layouts, setLayouts] = createSignal<LayoutInfo[]>(testLayoutData);
+  const [layouts, setLayouts] = createSignal(testLayoutData);
 
   // Method to handle deletion
   const handleLayoutDelete = (layoutId: string) => {
@@ -713,8 +722,8 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
 
   };
 
-  function createOverlaysFromTestData(widget, overlaysData) {
-    overlaysData.forEach((overlayEntry) => {
+  function createOverlaysFromTestData(widget:any, overlaysData:any) {
+    overlaysData.forEach((overlayEntry:any) => {
       // Skip this entry if the key is undefined
       if (overlayEntry.key === undefined) {
         console.warn("Skipped overlay due to undefined key:", overlayEntry);
@@ -732,7 +741,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
 
       const modifiedOverlay = {
         ...overlayData,
-        onDrawEnd: (event) => {
+        onDrawEnd: (event:any) => {
           console.log("Draw End Event:", event);
           const updatedOverlay = formatOverlayData({
             ...overlayData,
@@ -742,7 +751,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
           if (overlayData.onDrawEnd) return overlayData.onDrawEnd(event);
           return true;
         },
-        onPressedMoveEnd: (event) => {
+        onPressedMoveEnd: (event:any) => {
           console.log("Pressed Move End Event:", event);
           const updatedOverlay = formatOverlayData({
             ...overlayData,
@@ -753,7 +762,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
             return overlayData.onPressedMoveEnd(event);
           return true;
         },
-        onRemoved: (event) => {
+        onRemoved: (event:any) => {
           console.log("Overlay Removed Event:", event);
           const overlayId = event.overlay.id;
           console.log("Removing overlay with ID:", overlayId);
@@ -767,7 +776,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
     });
   }
 
-  function formatOverlayData(overlayData) {
+  function formatOverlayData(overlayData:any) {
     const overlayId = overlayData.overlay?.id || overlayData.id;
     console.log("overlayIdoverlayId", overlayId, overlayData.id);
     if (!overlayId) {
@@ -787,7 +796,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
     };
   }
 
-  function removeOverlay(overlayId) {
+  function removeOverlay(overlayId:any) {
     console.log("Attempting to remove overlay with ID:", overlayId);
     if (overlaysMap.has(overlayId)) {
       overlaysMap.delete(overlayId);
@@ -802,7 +811,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
 
   const currentLayout = "Sans template"; // Placeholder for the current layout
 
-  const handleCreateLayout = (layoutInfo) => {
+  const handleCreateLayout = (layoutInfo:any) => {
     // Logic to handle layout creation
     console.log('New Layout Created:', layoutInfo);
   };
@@ -838,7 +847,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
   };
 
 
-  const onLoadLayout = async (layoutId) => {
+  const onLoadLayout = async (layoutId:any) => {
     console.log('Layout Load successfully:');
 
     try {
@@ -854,7 +863,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
       // Apply more chart state data as needed
   
       // Recreate overlays
-      layoutData.overlays.forEach(overlayData => {
+      layoutData.overlays.forEach((overlayData: string | OverlayCreate) => {
         widget?.createOverlay(overlayData);
       });
   
@@ -941,7 +950,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
       <Show when={loadLayoutModalVisible()}>
         <LayoutSearchModal
           locale={props.locale}
-          layoutData={layouts} // Pass the data here
+          layoutData={layouts()} // Pass the data here
           onLayoutSelected={(layout) => {
             console.log("Selected layout:", layout);
             onLoadLayout(layout.id);
@@ -1071,7 +1080,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
               const modifiedOverlay = {
                 ...overlay,
 
-                onDrawEnd: (event) => {
+                onDrawEnd: (event:any) => {
                   console.log("Draw End Event:", event);
                   // Format and update overlay in the map
                   const updatedOverlay = formatOverlayData({
@@ -1082,7 +1091,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
                   if (overlay.onDrawEnd) return overlay.onDrawEnd(event);
                   return true;
                 },
-                onPressedMoveEnd: (event) => {
+                onPressedMoveEnd: (event:any) => {
                   console.log("Pressed Move End Event:", event);
                   // Format and update overlay in the map
                   const updatedOverlay = formatOverlayData({
@@ -1094,7 +1103,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
                     return overlay.onPressedMoveEnd(event);
                   return true;
                 },
-                onRemoved: (event) => {
+                onRemoved: (event:any) => {
                   console.log("Overlay Removed Event:", event);
                   // Remove the overlay from overlaysMap
                   overlaysMap.delete(event.overlay.id);
